@@ -78,6 +78,38 @@ def main():
                 tasks = [t for t in tasks if t["id"] != task["id"]]
                 save_tasks(tasks)
                 st.rerun()
+                
+    # Testing Section
+    st.header("Run Tests")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        if st.button("Run Basic Tests"):
+            import subprocess
+            result = subprocess.run(["pytest", "-v", "tests/test_basic.py"], capture_output=True, text=True)
+            st.text_area("Basic Test Output", result.stdout + result.stderr, height=300)
+
+    with col2:
+        if st.button("Run Advanced Tests"):
+            import subprocess
+            result = subprocess.run(["pytest", "-v", "tests/test_advanced.py"], capture_output=True, text=True)
+            st.text_area("Advanced Test Output", result.stdout + result.stderr, height=300)
+
+    with col3:
+        if st.button("Run TDD Tests"):
+            import subprocess
+            result = subprocess.run(["pytest", "-v", "tests/test_tdd.py"], capture_output=True, text=True)
+            st.text_area("TDD Test Output", result.stdout + result.stderr, height=300)
+
+    st.divider()
+
+    if st.button("Run BDD Tests (Behave)"):
+        import subprocess
+        result = subprocess.run(["behave", "tests/feature/"], capture_output=True, text=True)
+        st.text_area("BDD Test Output", result.stdout + result.stderr, height=400)
+                
+
 
 if __name__ == "__main__":
     main()
